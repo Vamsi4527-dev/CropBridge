@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CROPBRIDGE - Item Details Form</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: rgb(170, 245, 170);
+            min-height: 100vh;
+            padding-bottom: 2rem;
+        }
+
+        header {
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            z-index: 1;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            gap: 1rem;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .brand-info {
+            color: white;
+        }
+
+        .brand-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin-bottom: 0.25rem;
+        }
+
+        .brand-subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        .form-wrapper {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #4caf50, #2e7d32, #66bb6a);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .form-title {
+            text-align: center;
+            color: #2e7d32;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .form-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #4caf50, #2e7d32);
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #4caf50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+            background: white;
+        }
+
+        .form-input:hover {
+            border-color: #66bb6a;
+        }
+
+        .price-range {
+            display: flex;
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .price-group {
+            flex: 1;
+        }
+
+        .price-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .price-input:focus {
+            outline: none;
+            border-color: #4caf50;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        .address-input {
+            min-height: 80px;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        .file-input-wrapper {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-input {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-label {
+            display: block;
+            padding: 0.75rem 1rem;
+            border: 2px dashed #4caf50;
+            border-radius: 12px;
+            text-align: center;
+            color: #4caf50;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(76, 175, 80, 0.05);
+        }
+
+        .file-label:hover {
+            background: rgba(76, 175, 80, 0.1);
+            border-color: #2e7d32;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #4caf50 0%, #2e7d32 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            margin-top: 1rem;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.6s;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(76, 175, 80, 0.4);
+        }
+
+        .submit-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+            margin: 1rem 0;
+            border: none;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 1rem;
+            }
+
+            .brand-title {
+                font-size: 2rem;
+            }
+
+            .brand-subtitle {
+                font-size: 1rem;
+            }
+
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .form-container {
+                margin: 1rem auto;
+                padding: 0.5rem;
+            }
+
+            .form-wrapper {
+                padding: 1.5rem;
+                border-radius: 15px;
+            }
+
+            .form-title {
+                font-size: 1.5rem;
+            }
+
+            .price-range {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .price-group {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .brand-title {
+                font-size: 1.8rem;
+            }
+
+            .brand-subtitle {
+                font-size: 0.9rem;
+            }
+
+            .form-wrapper {
+                padding: 1rem;
+            }
+
+            .form-title {
+                font-size: 1.3rem;
+            }
+
+            .form-input,
+            .price-input {
+                padding: 0.6rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .submit-btn {
+                padding: 0.8rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+
+        /* Large screens */
+        @media (min-width: 1200px) {
+            .form-container {
+                max-width: 700px;
+            }
+
+            .form-wrapper {
+                padding: 3rem;
+            }
+
+            .brand-title {
+                font-size: 3rem;
+            }
+        }
+
+        /* Focus and validation styles */
+        .form-input:invalid {
+            border-color: #f44336;
+        }
+
+        .form-input:valid {
+            border-color: #4caf50;
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-wrapper {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .form-group {
+            animation: fadeInUp 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.2s; }
+        .form-group:nth-child(3) { animation-delay: 0.3s; }
+        .form-group:nth-child(4) { animation-delay: 0.4s; }
+        .form-group:nth-child(5) { animation-delay: 0.5s; }
+        .form-group:nth-child(6) { animation-delay: 0.6s; }
+        .form-group:nth-child(7) { animation-delay: 0.7s; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <img class="logo" src="https://cdn.glitch.global/1bb235a7-07d8-43b3-a999-2c39ae09dbdb/logo-removebg-preview.png?v=1725204822644" alt="Cropbridge Logo">
+            <div class="brand-info">
+                <h1 class="brand-title">CROPBRIDGE</h1>
+                <p class="brand-subtitle">CONNECTING FARMERS WITH PEOPLE</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="form-container">
+        <div class="form-wrapper">
+            <h2 class="form-title">🌾 Item Details Form</h2>
+            
+            <form>
+                <div class="form-group">
+                    <label class="form-label" for="item-name">Enter Item Name</label>
+                    <input class="form-input" id="item-name" type="text" placeholder="e.g., Organic Tomatoes" required>
+                </div>
+
+                <hr class="divider">
+
+                <div class="form-group">
+                    <label class="form-label" for="farmer-id">Enter Farmer ID</label>
+                    <input class="form-input" id="farmer-id" type="text" placeholder="e.g., FB001234" required>
+                </div>
+
+                <hr class="divider">
+
+                <div class="form-group">
+                    <label class="form-label" for="bid-date">Duration of Bidding</label>
+                    <input class="form-input" id="bid-date" type="date" required>
+                </div>
+
+                <hr class="divider">
+
+                <div class="form-group">
+                    <label class="form-label" for="quantity">Enter Number of Kgs</label>
+                    <input class="form-input" id="quantity" type="number" placeholder="e.g., 50" min="1" required>
+                </div>
+
+                <hr class="divider">
+
+                <div class="form-group">
+                    <label class="form-label" for="image">Post Image</label>
+                    <div class="file-input-wrapper">
+                        <input class="file-input" id="image" type="file" accept="image/*">
+                        <label class="file-label" for="image">
+                            📷 Click to upload crop image
+                        </label>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="form-group">
+                    <label class="form-label">Price Range (₹ per kg)</label>
+                    <div class="price-range">
+                        <div class="price-group">
+                            <label class="form-label" for="low-price">Minimum Price</label>
+                            <input class="price-input" id="low-price" type="number" placeholder="₹ 20" min="0" step="0.01">
+                        </div>
+                        <div class="price-group">
+                            <label class="form-label" for="high-price">Maximum Price</label>
+                            <input class="price-input" id="high-price" type="number" placeholder="₹ 50" min="0" step="0.01">
+                        </div>
+                    </div>
+                </div>
+
+                <hr class="divider">
+
+                <div class="form-group">
+                    <label class="form-label" for="address">Enter Address</label>
+                    <textarea class="form-input address-input" id="address" placeholder="Door No., Street Name, Area, City, Pincode..." required></textarea>
+                </div>
+
+                <button class="submit-btn" type="submit">
+                    🚀 Submit Item Details
+                </button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
